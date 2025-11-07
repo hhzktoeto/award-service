@@ -1,0 +1,38 @@
+server:
+  tomcat:
+    max-http-form-post-size: 25MB
+
+spring:
+  application:
+    name: award-service
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DBNAME}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+  jpa:
+    open-in-view: false
+
+logging:
+  group:
+    app: ru.t2.awardservice
+    spring: org.springframework, org.springframework.web, org.springframework.boot
+    database: liquibase, org.hibernate, com.zaxxer
+    http: org.apache.coyote, org.apache.catalina
+  level:
+    app: debug
+    spring: warn
+    database: warn
+    http: warn
+  pattern:
+    console: '%d{dd.MM.YYYY HH:mm:ss.SSS} %highlight(%-5level) --- [%25thread] --- %-75logger{75} : %cyan(%msg%n)'
+    file: '%d{dd.MM.YYYY HH:mm:ss.SSS} %-5level --- [%25thread] %-25logger{25} : %msg%n'
+  file:
+    name: logs/log.log
+  logback:
+    rollingpolicy:
+      max-file-size: 5MB
+      max-history: 10
+      total-size-cap: 1GB
+      file-name-pattern: t2-award-service.%d{yyyy-MM-dd}.%i.gz
