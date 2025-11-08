@@ -52,7 +52,7 @@ public class GlobalExceptionHandler {
         this.logException(e);
         return ErrorResponse.builder()
                 .code(HttpStatus.BAD_REQUEST.value())
-                .message(e.getMessage())
+                .message("Uploaded file is invalid and can not be processed. Check the data inside the file")
                 .build();
     }
 
