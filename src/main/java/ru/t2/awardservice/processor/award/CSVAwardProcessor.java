@@ -34,20 +34,21 @@ public class CSVAwardProcessor extends AwardProcessor {
 
         try (Reader reader = new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8)) {
             CSVFormat format = CSVFormat.Builder.create()
+                    .setHeader()
                     .setSkipHeaderRecord(true)
                     .setTrim(true)
                     .get();
 
             try (CSVParser parser = format.parse(reader)) {
-                for (CSVRecord record : parser) {
-                    if (this.isEmpty(record)) {
+                for (CSVRecord csvRecord : parser) {
+                    if (this.isEmpty(csvRecord)) {
                         continue;
                     }
-                    long employeeId = Long.parseLong(record.get(EMPLOYEE_ID_INDEX));
-                    String employeeFullName = record.get(EMPLOYEE_FULL_NAME_INDEX);
-                    long awardId = Long.parseLong(record.get(AWARD_ID_INDEX));
-                    String awardName = record.get(AWARD_NAME_INDEX);
-                    LocalDate awardDate = LocalDate.parse(record.get(AWARD_DATE_INDEX), DateTimeFormatter.ISO_DATE);
+                    long employeeId = Long.parseLong(csvRecord.get(EMPLOYEE_ID_INDEX));
+                    String employeeFullName = csvRecord.get(EMPLOYEE_FULL_NAME_INDEX);
+                    long awardId = Long.parseLong(csvRecord.get(AWARD_ID_INDEX));
+                    String awardName = csvRecord.get(AWARD_NAME_INDEX);
+                    LocalDate awardDate = LocalDate.parse(csvRecord.get(AWARD_DATE_INDEX), DateTimeFormatter.ISO_DATE);
 
                     Optional<Award> optionalAward = this.getAward(employeeId, employeeFullName, awardId, awardName, awardDate);
                     optionalAward.ifPresent(awards::add);
