@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import ru.t2.awardservice.dto.ErrorResponse;
 import ru.t2.awardservice.exception.FileProcessingException;
 import ru.t2.awardservice.exception.IncorrectFileDataException;
+import ru.t2.awardservice.exception.UnexpectedBehaviourException;
 import ru.t2.awardservice.exception.UnsupportedFileExtensionException;
 
 @Slf4j
@@ -31,7 +32,7 @@ public class GlobalExceptionHandler {
         this.logException(e);
         return ErrorResponse.builder()
                 .code(HttpStatus.PAYLOAD_TOO_LARGE.value())
-                .message("Uploaded file size is more than allowed 25MB")
+                .message("Uploaded file size is more than allowed 2MB")
                 .build();
     }
 
@@ -52,6 +53,16 @@ public class GlobalExceptionHandler {
         return ErrorResponse.builder()
                 .code(HttpStatus.BAD_REQUEST.value())
                 .message(e.getMessage())
+                .build();
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(UnexpectedBehaviourException.class)
+    public ErrorResponse handleUnexpectedBehaviourException(UnexpectedBehaviourException e) {
+        this.logException(e);
+        return ErrorResponse.builder()
+                .code(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .message("Unexpected internal server error occurred")
                 .build();
     }
 
