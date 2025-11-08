@@ -22,7 +22,7 @@ public class AwardService {
 
     public List<Award> upload(MultipartFile file) {
         log.info("Processing saving request for award");
-        String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
+        String fileExtension = FilenameUtils.getExtension(file.getName());
         MultipartFileProcessor<Award> processor = processorSupplier.getProcessor(fileExtension);
 
         List<Award> processedAwards = processor.process(file);

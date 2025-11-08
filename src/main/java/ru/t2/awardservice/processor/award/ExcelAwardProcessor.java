@@ -31,7 +31,7 @@ public class ExcelAwardProcessor extends AwardProcessor {
     protected List<Award> parseFile(MultipartFile file) throws IOException, NumberFormatException, DateTimeParseException {
         List<Award> awards = new ArrayList<>();
 
-        try (Workbook workbook = switch (FilenameUtils.getExtension(file.getOriginalFilename())) {
+        try (Workbook workbook = switch (FilenameUtils.getExtension(file.getName())) {
             case "xls" -> new HSSFWorkbook(file.getInputStream());
             case "xlsx" -> new XSSFWorkbook(file.getInputStream());
             default -> throw new UnexpectedBehaviourException("Non excel file reached excel processor class");
