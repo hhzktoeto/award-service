@@ -1,6 +1,5 @@
 server:
-  tomcat:
-    max-http-form-post-size: 25MB
+  port: ${SERVER_PORT}
 
 spring:
   application:
